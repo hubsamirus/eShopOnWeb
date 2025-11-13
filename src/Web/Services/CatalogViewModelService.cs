@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.eShopWeb.ApplicationCore.Entities;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 using Microsoft.eShopWeb.ApplicationCore.Specifications;
 using Microsoft.eShopWeb.Web.ViewModels;
-using Microsoft.Extensions.Logging;
 
 namespace Microsoft.eShopWeb.Web.Services;
 
@@ -51,15 +46,15 @@ public class CatalogViewModelService : ICatalogViewModelService
 
         var vm = new CatalogIndexViewModel()
         {
-            CatalogItems = itemsOnPage.Select(i => new CatalogItemViewModel()
+            CatalogItems = [.. itemsOnPage.Select(i => new CatalogItemViewModel()
             {
                 Id = i.Id,
                 Name = i.Name,
                 PictureUri = _uriComposer.ComposePicUri(i.PictureUri),
                 Price = i.Price
-            }).ToList(),
-            Brands = (await GetBrands()).ToList(),
-            Types = (await GetTypes()).ToList(),
+            })],
+            Brands = [.. (await GetBrands())],
+            Types = [.. (await GetTypes())],
             BrandFilterApplied = brandId ?? 0,
             TypesFilterApplied = typeId ?? 0,
             PaginationInfo = new PaginationInfoViewModel()
